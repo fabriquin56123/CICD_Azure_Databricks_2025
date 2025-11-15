@@ -41,7 +41,7 @@ jobs:
       run: |
         DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
         DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
-        DEST_BASE="/py/scripts/main"
+        DEST_BASE="/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/"
         for file in notebooks_to_deploy/*.py; do
           name=$(basename "$file" .py)
           dest_path="$DEST_BASE/$name"
@@ -180,7 +180,7 @@ jobs:
             },
             {
               "task_key": "extract_movies",
-              "description": "Ejecuta notebook /Ingest movies data",
+              "description": "Ejecuta notebook Ingest movies data",
               "notebook_task": {
                 "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest movies data",
                 "source": "WORKSPACE"
@@ -196,7 +196,7 @@ jobs:
             },
             {
               "task_key": "extract_posterpath_data",
-              "description": "Ejecuta notebook /Ingest movies data",
+              "description": "Ejecuta notebook Ingest posterpath data",
               "notebook_task": {
                 "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest posterpath data",
                 "source": "WORKSPACE"
