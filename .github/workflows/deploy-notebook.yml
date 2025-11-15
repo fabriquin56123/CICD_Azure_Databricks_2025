@@ -59,7 +59,7 @@ jobs:
             -d "{\"path\":\"$DEST_BASE\"}" \
             "$DEST_HOST/api/2.0/workspace/mkdirs"
 
-          # Detectar lenguaje según extensión
+          # Detectar lenguaje según extensión hecha
           if [[ "$file" == *.sql ]]; then
             LANG="SQL"
           else
