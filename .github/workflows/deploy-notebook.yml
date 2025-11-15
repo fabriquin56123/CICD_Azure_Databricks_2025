@@ -29,13 +29,23 @@ jobs:
         )
 
         mkdir -p notebooks_to_deploy
+
         for nb in "${NOTEBOOKS[@]}"; do
           echo "Exportando $nb en modo raw..."
+
+          # Elegir extensión según el notebook
+          if [[ "$nb" == "Preparacion_Ambiente" ]]; then
+            EXT="sql"
+          else
+            EXT="py"
+          fi
+
           curl -s -X GET \
             -H "Authorization: Bearer $ORIGIN_TOKEN" \
             "$ORIGIN_HOST/api/2.0/workspace/export?path=$NOTEBOOK_BASE/$nb&format=SOURCE&direct_download=true" \
-            --output "notebooks_to_deploy/$nb.py"
+            --output "notebooks_to_deploy/$nb.$EXT"
         done
+
     
     - name: Deploy notebooks to Destination Workspace
       run: |
