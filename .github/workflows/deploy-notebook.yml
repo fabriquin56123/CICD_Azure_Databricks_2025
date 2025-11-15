@@ -20,10 +20,10 @@ jobs:
         NOTEBOOK_BASE="/Workspace/Users/quintanafabrizzio14@gmail.com/ETL"
         NOTEBOOKS=(
           "Preparacion_Ambiente"
-          "Ingest filmdetails data"
-          "Ingest moreinfo data"
-          "Ingest movies data"
-          "Ingest posterpath data"
+          "Ingest_filmdetails_data"
+          "Ingest_moreinfo_data"
+          "Ingest_movies_data"
+          "Ingest_posterpath_data"
           "Transform"
           "Load"
         )
@@ -150,7 +150,7 @@ jobs:
               "task_key": "extract_filmdetails",
               "description": "Ejecuta notebook Ingest filmdetails data",
               "notebook_task": {
-                "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest filmdetails data",
+                "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest_filmdetails_data",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -166,7 +166,7 @@ jobs:
               "task_key": "extract_moreinfo",
               "description": "Ejecuta notebook Ingest moreinfo data",
               "notebook_task": {
-                "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest moreinfo data",
+                "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest_moreinfo_data",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -182,7 +182,7 @@ jobs:
               "task_key": "extract_movies",
               "description": "Ejecuta notebook Ingest movies data",
               "notebook_task": {
-                "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest movies data",
+                "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest_movies_data",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -198,7 +198,7 @@ jobs:
               "task_key": "extract_posterpath_data",
               "description": "Ejecuta notebook Ingest posterpath data",
               "notebook_task": {
-                "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest posterpath data",
+                "notebook_path": "/Workspace/Users/quintanafabrizzio14@gmail.com/ETL/Ingest_posterpath_data",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
