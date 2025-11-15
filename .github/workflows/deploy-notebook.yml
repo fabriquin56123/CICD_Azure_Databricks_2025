@@ -18,7 +18,7 @@ jobs:
         ORIGIN_HOST=${{ secrets.DATABRICKS_ORIGIN_HOST }}
         ORIGIN_TOKEN=${{ secrets.DATABRICKS_ORIGIN_TOKEN }}
         NOTEBOOK_BASE="/Workspace/Users/quintanafabrizzio14@gmail.com/ETL"
-        NOTEBOOKS:(
+        NOTEBOOKS = (
           "Preparacion_Ambiente"
           "Ingest filmdetails data"
           "Ingest moreinfo data"
