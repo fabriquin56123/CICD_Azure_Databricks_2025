@@ -40,27 +40,38 @@ jobs:
         DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
         DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
         DEST_BASE="/ETL/scripts"
-        for file in notebooks_to_deploy/*.py; do
-          name=$(basename "$file" .py)
+        for file in notebooks_to_deploy/*.{py,sql}; do
+          name=$(basename "$file")
           dest_path="$DEST_BASE/$name"
+
           echo "Creando carpeta $DEST_BASE si no existe..."
           curl -s -X POST \
             -H "Authorization: Bearer $DEST_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"path\":\"$DEST_BASE\"}" \
             "$DEST_HOST/api/2.0/workspace/mkdirs"
+
           echo "Importando $file → $dest_path"
+
+          # Detectar tipo de lenguaje
+          if [[ "$file" == *.py ]]; then
+            LANG="PYTHON"
+          else
+            LANG="SQL"
+          fi
+
           response=$(curl -s -X POST \
             -H "Authorization: Bearer $DEST_TOKEN" \
             -H "Content-Type: multipart/form-data" \
             -F "path=$dest_path" \
             -F "format=SOURCE" \
-            -F "language=PYTHON" \
+            -F "language=$LANG" \
             -F "overwrite=true" \
             -F "content=@$file" \
             "$DEST_HOST/api/2.0/workspace/import")
-          echo "Response: $response"
+            echo "Response: $response"
         done
+
     
     - name: Check if workflow exists and delete if necessary
       run: |
