@@ -157,7 +157,7 @@ jobs:
               "task_key": "preparacion_ambiente",
               "description": "Ejecuta notebook Preparacion_Ambiente",
               "notebook_task": {
-                "notebook_path": "/ETL/Scripts/Preparacion_Ambiente",
+                "notebook_path": "/ETL/Scripts/Preparacion_Ambiente.sql",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -168,7 +168,7 @@ jobs:
               "task_key": "extract_filmdetails",
               "description": "Ejecuta notebook Ingest filmdetails_data",
               "notebook_task": {
-                "notebook_path": "/ETL/Scripts/Ingest_filmdetails_data",
+                "notebook_path": "/ETL/Scripts/Ingest_filmdetails_data.py",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -184,7 +184,7 @@ jobs:
               "task_key": "extract_moreinfo",
               "description": "Ejecuta notebook Ingest moreinfo_data",
               "notebook_task": {
-                "notebook_path": "/ETL/Scripts/Ingest_moreinfo_data",
+                "notebook_path": "/ETL/Scripts/Ingest_moreinfo_data.py",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -200,7 +200,7 @@ jobs:
               "task_key": "extract_movies",
               "description": "Ejecuta notebook Ingest_movies_data",
               "notebook_task": {
-                "notebook_path": "/ETL/Scripts/Ingest_movies_data",
+                "notebook_path": "/ETL/Scripts/Ingest_movies_data.py",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -216,7 +216,7 @@ jobs:
               "task_key": "extract_posterpath_data",
               "description": "Ejecuta notebook Ingest_poster_data",
               "notebook_task": {
-                "notebook_path": "/ETL/Scripts/Ingest_posterpath_data",
+                "notebook_path": "/ETL/Scripts/Ingest_posterpath_data.py",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -232,7 +232,7 @@ jobs:
               "task_key": "transform",
               "description": "Ejecuta notebook Transform",
               "notebook_task": {
-                "notebook_path": "/ETL/Scripts/Transform",
+                "notebook_path": "/ETL/Scripts/Transform.py",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -257,7 +257,7 @@ jobs:
               "task_key": "load",
               "description": "Ejecuta notebook load",
               "notebook_task": {
-                "notebook_path": "/ETL/Scripts/Load",
+                "notebook_path": "/ETL/Scripts/Load.py",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
