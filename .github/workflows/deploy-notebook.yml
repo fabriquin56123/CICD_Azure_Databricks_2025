@@ -17,32 +17,40 @@ jobs:
       run: |
         ORIGIN_HOST=${{ secrets.DATABRICKS_ORIGIN_HOST }}
         ORIGIN_TOKEN=${{ secrets.DATABRICKS_ORIGIN_TOKEN }}
-        NOTEBOOK_BASE="/ETL/scripts"
+        NOTEBOOK_BASE="/Workspace/Users/quintanafabrizzio14@gmail.com/ETL"
+
         NOTEBOOKS=("Preparacion_Ambiente" "Ingest_filmdetails_data" "Ingest_moreinfo_data" "Ingest_movies_data" "Ingest_posterpath_data" "Transform" "Load")
+
         mkdir -p notebooks_to_deploy
+
         for nb in "${NOTEBOOKS[@]}"; do
-          if [ "$nb" == "Preparacion_Ambiente" ]; then
-            ext="sql"
-            lang="SQL"
+          echo "Exportando $nb en modo raw..."
+
+          # Determinar extensión según notebook
+          if [[ "$nb" == "Preparacion_Ambiente" ]]; then
+            EXT="sql"
           else
-            ext="py"
-            lang="PYTHON"
+            EXT="py"
           fi
-          # Export
+
           curl -s -X GET \
             -H "Authorization: Bearer $ORIGIN_TOKEN" \
             "$ORIGIN_HOST/api/2.0/workspace/export?path=$NOTEBOOK_BASE/$nb&format=SOURCE&direct_download=true" \
-            --output "notebooks_to_deploy/$nb.$ext"
+            --output "notebooks_to_deploy/$nb.$EXT"
         done
+
     
     - name: Deploy notebooks to Destination Workspace
       run: |
         DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
         DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
-        DEST_BASE="/ETL/scripts"
-        for file in notebooks_to_deploy/*.{py,sql}; do
-          name=$(basename "$file")
-          dest_path="$DEST_BASE/$name"
+        DEST_BASE="/ETL/Scripts"
+
+        mkdir -p notebooks_to_deploy
+
+        for file in notebooks_to_deploy/*; do
+          filename=$(basename "$file")
+          dest_path="$DEST_BASE/$filename"
 
           echo "Creando carpeta $DEST_BASE si no existe..."
           curl -s -X POST \
@@ -51,14 +59,14 @@ jobs:
             -d "{\"path\":\"$DEST_BASE\"}" \
             "$DEST_HOST/api/2.0/workspace/mkdirs"
 
-          echo "Importando $file → $dest_path"
-
-          # Detectar tipo de lenguaje
-          if [[ "$file" == *.py ]]; then
-            LANG="PYTHON"
-          else
+          # Detectar lenguaje según extensión
+          if [[ "$file" == *.sql ]]; then
             LANG="SQL"
+          else
+            LANG="PYTHON"
           fi
+
+          echo "Importando $file → $dest_path (language=$LANG)"
 
           response=$(curl -s -X POST \
             -H "Authorization: Bearer $DEST_TOKEN" \
@@ -69,7 +77,8 @@ jobs:
             -F "overwrite=true" \
             -F "content=@$file" \
             "$DEST_HOST/api/2.0/workspace/import")
-            echo "Response: $response"
+
+          echo "Response: $response"
         done
 
     
@@ -133,7 +142,7 @@ jobs:
       run: |
         DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
         DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
-        DEST_BASE="/ETL/scripts"
+        DEST_BASE="/ETL/Scripts/"
         CLUSTER_ID="${{ env.CLUSTER_ID }}"
         
         echo "Creando workflow: WF_ADB con cluster existente ID: $CLUSTER_ID"
@@ -148,7 +157,7 @@ jobs:
               "task_key": "preparacion_ambiente",
               "description": "Ejecuta notebook Preparacion_Ambiente",
               "notebook_task": {
-                "notebook_path": "/ETL/scripts/Preparacion_Ambiente",
+                "notebook_path": "/ETL/Scripts/Preparacion_Ambiente",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -157,9 +166,9 @@ jobs:
             },
             {
               "task_key": "extract_filmdetails",
-              "description": "Ejecuta notebook Ingest filmdetails data",
+              "description": "Ejecuta notebook Ingest filmdetails_data",
               "notebook_task": {
-                "notebook_path": "/ETL/scripts/Ingest_filmdetails_data",
+                "notebook_path": "/ETL/Scripts/Ingest_filmdetails_data",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -173,9 +182,9 @@ jobs:
             },
             {
               "task_key": "extract_moreinfo",
-              "description": "Ejecuta notebook Ingest moreinfo data",
+              "description": "Ejecuta notebook Ingest moreinfo_data",
               "notebook_task": {
-                "notebook_path": "/ETL/scripts/Ingest_moreinfo_data",
+                "notebook_path": "/ETL/Scripts/Ingest_moreinfo_data",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -189,9 +198,9 @@ jobs:
             },
             {
               "task_key": "extract_movies",
-              "description": "Ejecuta notebook Ingest movies data",
+              "description": "Ejecuta notebook Ingest_movies_data",
               "notebook_task": {
-                "notebook_path": "/ETL/scripts/Ingest_movies_data",
+                "notebook_path": "/ETL/Scripts/Ingest_movies_data",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -205,9 +214,9 @@ jobs:
             },
             {
               "task_key": "extract_posterpath_data",
-              "description": "Ejecuta notebook Ingest posterpath data",
+              "description": "Ejecuta notebook Ingest_poster_data",
               "notebook_task": {
-                "notebook_path": "/ETL/scripts/Ingest_posterpath_data",
+                "notebook_path": "/ETL/Scripts/Ingest_posterpath_data",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -223,7 +232,7 @@ jobs:
               "task_key": "transform",
               "description": "Ejecuta notebook Transform",
               "notebook_task": {
-                "notebook_path": "/ETL/scripts/Transform",
+                "notebook_path": "/ETL/Scripts/Transform",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
@@ -248,7 +257,7 @@ jobs:
               "task_key": "load",
               "description": "Ejecuta notebook load",
               "notebook_task": {
-                "notebook_path": "/ETL/scripts/Load",
+                "notebook_path": "/ETL/Scripts/Load",
                 "source": "WORKSPACE"
               },
               "existing_cluster_id": "$CLUSTER_ID",
