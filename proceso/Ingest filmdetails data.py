@@ -9,7 +9,7 @@ dbutils.widgets.removeAll()
 # COMMAND ----------
 
 dbutils.widgets.text("storage_name", "adlsfabrizzioquintanav")
-dbutils.widgets.text("container", "raw")
+dbutils.widgets.text("container", "bronze")
 dbutils.widgets.text("catalogo", "catalog_dev")
 dbutils.widgets.text("esquema", "bronze")
 
